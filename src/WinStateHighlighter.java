@@ -116,7 +116,7 @@ public class WinStateHighlighter{
 	public static void main(String[] args){
 		// Testing
 		AbstractGameImplementation game = new Connect4GameLogic();
-		Connect4WinStateHighlighter testHighlight = new Connect4WinStateHighlighter();
+		WinStateHighlighter testHighlight = new WinStateHighlighter();
 		JLabel[][] board = new JLabel[game.getBoard().getBoardWidth()][game.getBoard().getBoardHeight()];
 
 		for(int y = 0; y < game.getBoard().getBoardHeight(); y++){
@@ -130,7 +130,7 @@ public class WinStateHighlighter{
 		game.setWinner(1);
 
 		try {
-			testHighlight.Connect4WinStateHighlighter(0, 0, board, game);
+			testHighlight.connect4WinStateHighlighter(0, 0, board, game);
 		} catch (IOException e) {
 			System.out.println("Connect4WinStateHighlighter()::setWinner(1) - Exception found");
 		}
@@ -140,7 +140,7 @@ public class WinStateHighlighter{
 		game.setWinner(2);
 
 		try{
-			testHighlight.Connect4WinStateHighlighter(0, 0, board, game);
+			testHighlight.connect4WinStateHighlighter(0, 0, board, game);
 		}catch(IOException e){
 			System.out.println("Connect4WinStateHighLighter()::setWinner(2) - Exception found");
 		}
@@ -155,7 +155,7 @@ public class WinStateHighlighter{
 
 	private final int PLAYER_ONE = 1;
 	private final int PLAYER_TWO = 2;
-    private final int COORDINATE_ONE = 1;
-    private final int COORDINATE_TWO = 2;
-    private final int COORDINATE_THREE = 3;
+  private final int COORDINATE_ONE = 1;
+  private final int COORDINATE_TWO = 2;
+  private final int COORDINATE_THREE = 3;
 }
