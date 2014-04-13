@@ -12,9 +12,7 @@ public class Main extends JFrame{
     /**ProgramController controller = new ProgramController();
     controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     controller.ProgramController();*/
-	
 	  SplashScreen splash = new SplashScreen();
 	  splash.initSplash();
-	  
   }
 }

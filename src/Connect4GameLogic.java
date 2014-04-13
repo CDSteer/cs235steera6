@@ -158,17 +158,15 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 	 *	@return	boolean	Returns true of false based depending on conditions.
 	 */
 	public boolean checkValid(int column, int row, AbstractPlayer player){
-        System.out.println("Connect4::checkValid()");
-
+    System.out.println("Connect4::checkValid()");
 		/* if the top of the column is not empty then the move is invalid */
-        if((getBoard()).isEmpty(column,TOP_ROW) == false){
+    if((getBoard()).isEmpty(column,TOP_ROW) == false){
 			System.out.println("Invalid move");
-            return false;
-        }else{
-
-            return true;
-        }
+      return false;
+    }else{
+  	  return true;
     }
+  }
 
 	/**
 	 * 	checkWin method reads the data on the board and determines if there's a winner
@@ -250,7 +248,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 		return boardFull;
 	}
 
-    
+
     public static void main(String[] args){
 
         final int TOO_BIG = 42;
@@ -260,94 +258,94 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 		Connect4GameLogic c4gamelogic = new Connect4GameLogic();
 		AbstractPlayer testPlayer = new Human();
 		testPlayer.setColour("Red");
-		
+
 		c4gamelogic.setPiece(0, 0, testPlayer);
 		if(c4gamelogic.getBoard().getBoard()[0][ROW_SIX].getColour().equals("Red")){
 			System.out.println("Connect4GameLogic::testSetPieceTrue has been successful");
 		}else{
 			System.out.println("Connect4GameLogic::testSetPieceTrue has not been successful");
 		}
-		
+
 		testPlayer.setColour("Red");
 
 		Piece testPiece = new Piece("Yellow");
-		
-		/* 
+
+		/*
 		 * Set the top piece of the board to yellow. This is a quasi-hack because
-		 * now the top piece is occupied whilst everyone below it isn't and that 
+		 * now the top piece is occupied whilst everyone below it isn't and that
 		 * wouldn't happen in the running implementation but it suffices here
 		 * for test purposes.
-		 * 
+		 *
 		 */
-		 
-		 
+
+
 		c4gamelogic.getBoard().setPiece(testPiece, 0, 0);
-		
+
 		c4gamelogic.setPiece(0, 0, testPlayer);
-		
-		/* 
+
+		/*
 		 * If top piece is still yellow then setPiece did nothing which is correct.
 		 * Basically our implementation tests if a move is valid before setting a piece
 		 * and so won't set a piece if it's not valid anyway but we wanted to include
 		 * a test to show this.
-		 * 
+		 *
 		 */
-		 
-		 
+
+
 		if(c4gamelogic.getBoard().getBoard()[0][0].getColour().equals("Yellow")){
 			System.out.println("Connect4GameLogic::testSetPieceFalse has been successful");
 		}else{
 			System.out.println("Connect4GameLogic::testSetPieceFalse has not been successful");
 		}
-		
-	
-		
+
+
+
 		try{
-		
+
 			c4gamelogic.setPiece(TOO_BIG, TOO_BIG, testPlayer);
-		
+
 		}catch(Exception e){
 			System.out.println("Connect4GameLogic::testSetPiecesTooBig()");
 		}
-		
+
 		//try to set pieces that are too small
 		try{
 
 			c4gamelogic.setPiece(TOO_SMALL, TOO_SMALL, testPlayer);
-			
+
 		} catch (Exception e){
 			System.out.println("Connect4GameLogic::testSetPieceTooSmall()");
 		}
-		
+
 		try{
-			
+
 			c4gamelogic.checkValid(0, 0, testPlayer);
-		
+
 		} catch(Exception e){
 			System.out.println("Connect4GameLogic::testMoveIsValidTrue()");
 		}
-		
+
 		c4gamelogic.getBoard().setPiece(testPiece, 0, 0);
-		
+
 		if((c4gamelogic.checkValid(0, 0, testPlayer)==(false))){
 			System.out.println("Connect4GameLogic::testMoveIsValidFalse()");
 		}
-		
+
 		try{
 			c4gamelogic.checkValid(TOO_BIG, TOO_BIG, testPlayer);
 		}catch(Exception e){
 			System.out.println("Connect4GameLogic::testMoveIsValidTooBig(");
 		}
-		
+
 		try{
 			c4gamelogic.checkValid(TOO_SMALL, TOO_SMALL, testPlayer);
 		}catch(Exception e){
 			System.out.println("Connect4GameLogic::testMoveIsValidTooSmall()");
 		}
-		
-		
+
+
 		Piece testpiece = new Piece("Red");
-		
+
 		if(c4gamelogic.checkWin()==true){
 			c4gamelogic.getBoard().setPiece(testPiece, 0, 6);
 			c4gamelogic.getBoard().setPiece(testPiece, 0, 5);
@@ -357,7 +355,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 		}else{
 			System.out.println("Connect4GameLogic::checkWinVertical() failed");
 		}
-		
+
 		if(c4gamelogic.checkWin()==true){
 			c4gamelogic.getBoard().setPiece(testPiece, 0, 6);
 			c4gamelogic.getBoard().setPiece(testPiece, 1, 6);
@@ -365,9 +363,9 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 			c4gamelogic.getBoard().setPiece(testPiece, 3, 6);
 			System.out.println("Connect4GameLogic::checkWinHorizontal() succeeded");
 		}else{
-			System.out.println("Connect4GameLogic::checkWinHorizontal() failed"); 
+			System.out.println("Connect4GameLogic::checkWinHorizontal() failed");
 		}
-		
+
 		if(c4gamelogic.checkWin()==true){
 			c4gamelogic.getBoard().setPiece(testPiece, 0, 3);
 			c4gamelogic.getBoard().setPiece(testPiece, 1, 4);
@@ -377,7 +375,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 		}else{
 			System.out.println("Connect4GameLogic::checkWinRightDiagonal failed");
 		}
-		
+
 		if(c4gamelogic.checkWin()==true){
 			c4gamelogic.getBoard().setPiece(testPiece, 9, 3);
 			c4gamelogic.getBoard().setPiece(testPiece, 8, 4);
@@ -387,17 +385,17 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 		}else{
 			System.out.println("Connect4GameLogic::checkWinLeftDiagonal failed");
 		}
-		
+
 		if(c4gamelogic.checkWin()==false){
 			System.out.println("C4GameLogic::checkWinFalse() has succeeded");
 		}else{
 			System.out.println("C4GameLogic::checkWinFalse() has failed");
 		}
-		
+
 		int x;
 		Piece testPiece1 = new Piece("Red");
 		Piece testPiece2 = new Piece("Yellow");
-		
+
 		for(x = 0; x < c4gamelogic.getBoard().getBoardWidth(); x = x + 4){
 			for(int y = 0; y < c4gamelogic.getBoard().getBoardHeight(); y++){
 				if((y % 2) == 0){
@@ -407,9 +405,9 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 					c4gamelogic.getBoard().setPiece(testPiece2, x, y);
 					c4gamelogic.getBoard().setPiece(testPiece2, x + 1, y);
 				}
-			}	
+			}
 		}
-		
+
 		for(x = 2; x < c4gamelogic.getBoard().getBoardWidth(); x = x + 4){
 			for(int y = 0; y < c4gamelogic.getBoard().getBoardHeight(); y++){
 				if((y % 2) == 0){
@@ -421,16 +419,16 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 				}
 			}
 		}
-		
+
 		if(c4gamelogic.checkWin()==false){
 			System.out.println("Connect4GameLogic::checkWinDraw() succeeded");
 		}else{
 			System.out.println("Connect4GameLogic::checkWinDraw() failed");
 		}
-		
-		
+
+
     }
-    
+
 
 	//Member variables to store the winning move and position
 	private int m_Winning_Move;

@@ -1,5 +1,3 @@
-
-
 import java.util.Random;
 
 /**
@@ -8,7 +6,7 @@ import java.util.Random;
  * @brief Allows a 'Hard' AI to generate moves in a game of Othello
  * @details An AI that generates moves by selecting moves that flip the most amount of counters,
  * 		   and randomly selecting a move if there is no highest.
- * 
+ *
  */
 public class OthHardAI {
 
@@ -23,21 +21,21 @@ public class OthHardAI {
     private final int DECREMENT_2 = 2;
     private final int SELECTED_MOVES_2 = 2;
 
-	
+
 	private final String PLAYER_ONE_PIECE_COLOUR = "Black";
 	private final String PLAYER_TWO_PIECE_COLOUR = "White";
-	
+
 	// variables holding class objects
 	private AbstractPlayer humanPlayer;
 	private AbstractPlayer AIPlayer;
 	private OthelloGameLogic othello;
-			
+
 	// Arrays holding current board state and intermediate calculation states
 	private int[][] m_boardState;
 	private int[][] m_possibleMoves;
 	private int[][] m_moveLength;
 	private int[] m_selectedMoves;
-	
+
 	// Misc Variables
 	private Random m_rand;
 	private int m_maxLineLength;
@@ -45,29 +43,29 @@ public class OthHardAI {
 	private int m_selectedCol;
 	private Piece m_currentPiece;
 	private boolean m_validMove;
-	
+
 	public int[] selectMove(ProgramController PC) {
-		
+
 		calculateMoves(PC);
-		
+
 		m_maxLineLength = 0;
 		for(int i = 0; i < BOARD_WIDTH; i++) {
 			for(int j = 0; j < BOARD_HEIGHT; j++) {
-				
+
 				if(m_moveLength[i][j] > m_maxLineLength) {
 					m_maxLineLength = m_moveLength[i][j];
 				}
 			}
 		}
-		
+
 		m_selectedMoves = new int[SELECTED_MOVES_2];
 		m_rand = new Random();
 		m_validMove = false;
-		
+
 		if(othello.checkTakeableTurn(AIPlayer) == false) {
 			return m_selectedMoves;
 		}
-		
+
 		while(m_validMove == false ||
 				m_moveLength[m_selectedRow][m_selectedCol] != m_maxLineLength) {
 			m_validMove = false;
@@ -77,16 +75,16 @@ public class OthHardAI {
 				m_validMove = true;
 			}
 		}
-		
+
 		System.out.println("OthHardAI Generated move: " + m_selectedRow + " " + m_selectedCol);
-		
+
 		m_selectedMoves[0] = m_selectedRow;
 		m_selectedMoves[1] = m_selectedCol;
-		
+
 		return m_selectedMoves;
-		
+
 	}
-	
+
 	private void calculateMoves(ProgramController PC) {
 
 		humanPlayer = PC.getGame().getPlayer(PLAYER_ONE);
@@ -95,22 +93,22 @@ public class OthHardAI {
 		m_possibleMoves = new int[BOARD_WIDTH][BOARD_HEIGHT];
 		m_moveLength = new int[BOARD_WIDTH][BOARD_HEIGHT];
 		othello = new OthelloGameLogic();
-		
-		// Clears m_boardState		
+
+		// Clears m_boardState
 		for(int i = 0; i < BOARD_WIDTH; i++) {
 			for(int j = 0; j < BOARD_HEIGHT; j++) {
 				m_boardState[i][j] = EMPTY;
 				m_possibleMoves[i][j] = INVALID_MOVE;
 			}
 		}
-		
+
 		// Calculate current board state and place in m_boardState
-		// Will be used in deciding better moves for Hard AI		
+		// Will be used in deciding better moves for Hard AI
 		for(int i = 0; i < BOARD_WIDTH; i++) {
 			for(int j = 0; j < BOARD_HEIGHT; j++) {
 				m_currentPiece = PC.getGame().getPiece(i, j);
-				
-				if(m_currentPiece.getColour().equals("")) {				
+
+				if(m_currentPiece.getColour().equals("")) {
 					m_boardState[i][j] = EMPTY;
 				} else if (m_currentPiece.getColour().equals(PLAYER_ONE_PIECE_COLOUR)) {
 					m_boardState[i][j] = PLAYER_ONE;
@@ -119,7 +117,7 @@ public class OthHardAI {
 				}
 			}
 		}
-		
+
 		// Check each position for the move that flips the most counters
 		for(int i = 0; i < BOARD_WIDTH; i++) {
 			for(int j = 0; j < BOARD_HEIGHT; j++) {
@@ -127,9 +125,9 @@ public class OthHardAI {
 					m_moveLength[i][j] = INVALID_MOVE;
 				} else if(m_boardState[i][j] == EMPTY) {
 					if(PC.getGame().checkValid(i, j, AIPlayer) == true) {
-												
+
 						m_maxLineLength = 0;
-		
+
 						checkVerticalDown(i, j, AIPlayer);
 						checkVerticalUp(i, j, AIPlayer);
 						checkRowsRight(i, j, AIPlayer);
@@ -138,29 +136,29 @@ public class OthHardAI {
 						checkDiagUpLeft(i, j, AIPlayer);
 						checkDiagDownRight(i, j, AIPlayer);
 						checkDiagDownLeft(i, j, AIPlayer);
-						
+
 						m_moveLength[i][j] = m_maxLineLength;
-						
+
 					}
 				}
 			}
-				
+
 		}
 	}
-	
+
 	private void checkVerticalDown(int row, int col, AbstractPlayer player) {
-		
+
 		if(col == (BOARD_HEIGHT - 1)) { return; }
-		
+
 		if(m_boardState[row][col+1] == PLAYER_TWO || m_boardState[row][col+1] == EMPTY) {
 			return;
 		}
-		
+
 		int lineLength = 1;
-		if(col < BOARD_HEIGHT - 1) {			
+		if(col < BOARD_HEIGHT - 1) {
 			for (int j = col + INCREMENT_2; j < BOARD_HEIGHT; j++) {
 				if(m_boardState[row][j] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[row][j] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -169,23 +167,23 @@ public class OthHardAI {
 					return;
 				}
 			}
-		}	
+		}
 	}
-	
+
 	private void checkVerticalUp(int row, int col, AbstractPlayer player) {
-		
+
 		if(col == 0) { return; }
-		
+
 		if(m_boardState[row][col-1] == PLAYER_TWO || m_boardState[row][col-1] == EMPTY) {
 			return;
 		}
-				
+
 		int lineLength = 1;
-		
+
 		if( col > 1) {
 			for (int j = col - DECREMENT_2; j >= 0; j--) {
 				if(m_boardState[row][j] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[row][j] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -195,23 +193,23 @@ public class OthHardAI {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	private void checkRowsRight(int row, int col, AbstractPlayer player) {
-		
+
 		if(row == (BOARD_WIDTH - 1)) { return; }
-		
+
 		if(m_boardState[row+1][col] == PLAYER_TWO || m_boardState[row+1][col] == EMPTY) {
 			return;
 		}
-		
+
 		int lineLength = 1;
-		
+
 		if(row < BOARD_WIDTH - 1) {
 			for (int i = row + INCREMENT_2; i < BOARD_WIDTH; i++) {
 				if(m_boardState[i][col] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[i][col] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -222,21 +220,21 @@ public class OthHardAI {
 			}
 		}
 	}
-	
+
 	private void checkRowsLeft(int row, int col, AbstractPlayer player) {
-		
+
 		if(row == 0) { return; }
-		
+
 		if(m_boardState[row-1][col] == PLAYER_TWO || m_boardState[row-1][col] == EMPTY) {
 			return;
 		}
-			
+
 		int lineLength = 1;
-		
+
 		if(row > 1) {
 			for (int i = row - DECREMENT_2; i >= 0; i--) {
 				if(m_boardState[i][col] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[i][col] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -247,21 +245,21 @@ public class OthHardAI {
 			}
 		}
 	}
-	
+
 	private void checkDiagUpRight(int row, int col, AbstractPlayer player) {
-		
+
 		if(row == (BOARD_WIDTH - 1)|| col == 0) { return; }
-		
+
 		if(m_boardState[row+1][col-1] == PLAYER_TWO || m_boardState[row+1][col-1] == EMPTY) {
 			return;
 		}
-		
+
 		int lineLength = 1;
-		
+
 		if(row < BOARD_WIDTH - 1 && col > 1) {
 			for(int i = row + INCREMENT_2, j = col - DECREMENT_2; i < BOARD_WIDTH && j >= 0; i++, j--) {
 				if(m_boardState[i][j] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[i][j] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -272,21 +270,21 @@ public class OthHardAI {
 			}
 		}
 	}
-	
+
 	private void checkDiagUpLeft(int row, int col, AbstractPlayer player) {
-		
+
 		if(row == 0 || col == 0) { return; }
-		
+
 		if(m_boardState[row-1][col-1] == PLAYER_TWO || m_boardState[row-1][col-1] == EMPTY) {
 			return;
 		}
-		
+
 		int lineLength = 1;
-		
+
 		if(row > 1 && col > 1) {
 			for(int i = row - DECREMENT_2, j = col - DECREMENT_2; i >= 0 && j >= 0; i--, j--) {
 				if(m_boardState[i][j] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[i][j] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -297,21 +295,21 @@ public class OthHardAI {
 			}
 		}
 	}
-	
+
 	private void checkDiagDownRight(int row, int col, AbstractPlayer player) {
-		
+
 		if(row == (BOARD_WIDTH - 1)|| col == (BOARD_HEIGHT - 1)) { return; }
-		
+
 		if(m_boardState[row+1][col+1] == PLAYER_TWO || m_boardState[row+1][col+1] == EMPTY) {
 			return;
 		}
-		
+
 		int lineLength = 1;
-		
+
 		if(row < BOARD_WIDTH - 1 && col < BOARD_HEIGHT - 1) {
 			for(int i = row + INCREMENT_2, j = col + INCREMENT_2; i < BOARD_WIDTH && j < BOARD_HEIGHT; i++, j++) {
 				if(m_boardState[i][j] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[i][j] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -322,21 +320,21 @@ public class OthHardAI {
 			}
 		}
 	}
-	
+
 	private void checkDiagDownLeft(int row, int col, AbstractPlayer player) {
-		
+
 		if(row == 0 || col == (BOARD_HEIGHT - 1)) { return; }
-		
+
 		if(m_boardState[row-1][col+1] == PLAYER_TWO || m_boardState[row-1][col+1] == EMPTY) {
 			return;
 		}
-		
+
 		int lineLength = 1;
-		
+
 		if(row > 1 && col < BOARD_HEIGHT - 1) {
 			for(int i = row - DECREMENT_2, j = col + INCREMENT_2; i >= 0 && j < BOARD_HEIGHT; i--, j++) {
 				if(m_boardState[i][j] == PLAYER_ONE) {
-					lineLength++;		
+					lineLength++;
 				} else if(m_boardState[i][j] == PLAYER_TWO) {
 					if(lineLength > m_maxLineLength) {
 						m_maxLineLength = lineLength;
@@ -347,7 +345,7 @@ public class OthHardAI {
 			}
 		}
 	}
-	
+
 	/**
 	 * Main method for class tests on OthHardAI
 	 * Takes no arguments
@@ -357,7 +355,7 @@ public class OthHardAI {
         final int TEST_POSITION_FIVE = 5;
         final int TEST_POSITION_FOUR = 4;
         final int SELECTED_MOVES_TWO = 2;
-		
+
 		/*
 		 * Test One
 		 * Calling OthHardAI.selectMove on an Oth Board with default starting state.
@@ -384,7 +382,7 @@ public class OthHardAI {
 		else {
 			System.out.println("OthHardAI.selectMove Evaluated: Incorrect");
 		}
-		
+
 		/*
 		 * Test Two
 		 * Calling OthHardAI.selectMove on an Oth Board with non-default starting state.

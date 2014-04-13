@@ -1,16 +1,14 @@
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
-
 import javax.imageio.*;
 import javax.swing.*;
-
 import java.awt.event.*;
 
 /**
  * @author Jamie I Davies, Martin Hui, Cameron Steer, I.C. Skinner, J. Bailey, S. Jones
  * @date Feb 25, 2014
- * @brief class that builds the board for either C4 or Othello 
+ * @brief class that builds the board for either C4 or Othello
  * @details ProgramController has all setup variables such and the game state and player names called into it
  *
 */
@@ -63,6 +61,12 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	private boolean getIsC4(){
 		return m_IsC4;
 	}
+	/** Method to get the boolean m_IsOth.
+	 * @return m_IsOth -boolean variable that stores which game's being played
+	 */
+	private boolean getIsOth(){
+		return m_IsOth;
+	}
 
 	/**
 	*	Sets connect4 option to be true
@@ -72,14 +76,40 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	public void setIsC4(int userOption){
 		if(userOption == 0){
 			m_IsC4 = true;
-		}else if(userOption == 1){
-			m_IsC4 = false;
     }else{
-      System.out.println("Program exited");
-			System.exit(1);
+    	m_IsC4 = false;
+   		//System.out.println("setIsC4::Program exited");
+			//System.exit(1);
     }
 	}
 
+	/**
+	*	Sets connect4 option to be true
+	*	@param userOption -int value given by dialog frame at start of the program
+	*	@return null
+	*/
+	public void setIsOth(int userOption){
+		if(userOption == 0){
+			m_IsOth = false;
+		}else if(userOption == 1){
+			m_IsOth = true;
+    }else{
+   		//System.out.println("setIsOth::Program exited");
+			//System.exit(1);
+    }
+	}
+
+	// public void setIsTtt(int userOption){
+	// 	if(userOption != 3){
+	// 		m_IsOth = false;
+	// 		m_Is = false;
+	// 	}else if(userOption == 1){
+	// 		m_IsOth = false;
+ //    }else{
+ //   //    System.out.println("setIsTtt::Program exited");
+	// 		// System.exit(1);
+ //    }
+	// }
 
 	/**
 	*	Method to set the GameImplementation member variable m_Game that also
@@ -89,13 +119,18 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	* 	@return null
 	*/
 	public void setGame(String player1, String player2){
+		System.out.println("ProgramController::setGame()");
 		File background_File;
 		if(getIsC4() == true){
 			m_Game = new Connect4GameLogic();
 			background_File = new File("../Images/Connect4Background.png");
-		}else{
+		}else if (getIsOth() == true){
 			m_Game = new OthelloGameLogic();
 			background_File = new File("../Images/OthelloBackground.png");
+		}else {
+			System.out.println("foobar");
+			m_Game = new TicTacToeLogic();
+			background_File = new File("../Images/tttBackground.png");
 		}
 		try{
 			setBGImage(background_File);
@@ -153,7 +188,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 		// action listener for the save button
     m_SaveButton.addActionListener(actListner2);
 	}
-	
+
 	ActionListener actListner3;
 	/**
 	 *	Create Save Game button and actionlistener
@@ -172,17 +207,17 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 				System.out.println("Back to main menu...");
 				setVisible(false);
 				System.out.println("Start back up splash screen...");
-						
+
 				m_Timer.stop(); //stop timer
 				m_TimerLabel = new JLabel("Time elapsed: 0s"); //reset timer label
 				setTime(0);//set time to zero
-				
+
 				setTurn(0); //Reset turn to zero
 				getTurnNumberLabel().setText("Turn: 1"); //reset turn count
-				
+
 				SplashScreen splash = new SplashScreen();
 				splash.initSplash();
-				
+
 			}
 		};
 		// action listener for the save button
@@ -372,6 +407,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	 *	@return null
 	*/
 	public void actionPerformed(ActionEvent event) {
+		System.out.println("ProgramController::actionPerformed()");
 			String colour1 = getGame().getPlayer(PLAYER_ONE).getColour();
 			String colour2 = getGame().getPlayer(PLAYER_TWO).getColour();
 			getTurnLabel().setText(getGame().getPlayer(PLAYER_ONE).getName() + "'s turn");
@@ -404,6 +440,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	  }
 
 	  System.out.println("Clicked");
+	  System.out.println(m_Game.getPlayer(PLAYER_ONE).getColour()+ m_Game.getPlayer(PLAYER_TWO).getColour());
   	if(getGame().checkWin() == false){
       for(int y = 0; y<getBoard().getBoardHeight(); y++){
         for(int x = 0; x<getBoard().getBoardWidth(); x++){
@@ -597,7 +634,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	 *	@return null
 	 */
 	private void attemptMove(int x, int y) {
-
+		System.out.println("ProgramController::attemptMove()");
 		m_AIC4Col = 0;
 		m_players = new AbstractPlayer[PLAYER_2];
 		m_players[PLAYER_ONE] = getGame().getPlayer(PLAYER_ONE);
@@ -621,6 +658,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 
 				} else if (getGame().checkTakeableTurn(m_players[0]) == false && getGame().checkTakeableTurn(m_players[1]) == false) {
 					try{
+
 						displayWinner();
 					}catch(IOException e){
 						System.out.println("IOException error @ ProgramController::attemptMove()");
@@ -791,16 +829,14 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 			getTurnLabel().setText("It's a draw!");
 		}else{}
 
-		Connect4WinStateHighlighter highlight = new Connect4WinStateHighlighter();
+		WinStateHighlighter highlight = new WinStateHighlighter();
 
 		if(getIsC4() == true){
-			highlight.Connect4WinStateHighlighter(getGame().getWinningi(), getGame().getWinningj(), getLabels(), getGame());
-		}else{}
+			highlight.connect4WinStateHighlighter(getGame().getWinningi(), getGame().getWinningj(), getLabels(), getGame());
+		}else if (!getIsC4() && !getIsOth()){
+			highlight.tttWinStateHighlighter(getGame().getWinningi(), getGame().getWinningj(), getLabels(), getGame());
+		}
 	}
-
-  public void mousePressed(MouseEvent e) {}
-  public void mouseReleased(MouseEvent e) {}
-  public void mouseExited(MouseEvent e) {}
 
   /**
    *	Timer method that starts a timer in intervals of 1 second, and is run whenever the game is
@@ -837,21 +873,27 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	 * @return null
 	 */
 	void ProgramController(int gameState, int playerState, String player1Name, String player2Name) throws IOException{
+		System.out.println("ProgramController::ProgramController");
 		//if (!load){
 		player1 = player1Name;
 		player2 = player2Name;
 
 		setIsC4(gameState);
+		setIsOth(gameState);
+		//setIsTtt(gameState);
 		if(this.getIsC4() == true){
 			m_GameType = "C4";
-		} else {
+		} else if (this.getIsOth() == true) {
 			m_GameType = "Oth";
+		} else {
+			m_GameType = "TTT";
 		}
+		System.out.println(m_GameType);
 		setGame(player1, player2);
 		setBoard();
 		setContainer();
 		setImages();
-        setTurnLabel();
+    setTurnLabel();
 		setNewGameButton();
 		setSaveButton();
 		setMainMenuButton();
@@ -869,7 +911,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
   			m_playerSelection = HARD_AI;
   	}
 
-	//AI stuff
+		//AI stuff
 		if(m_playerSelection == EASY_AI) {
 			if(this.getIsC4() == true) {
 				m_Player2Type = "Easy";
@@ -887,11 +929,18 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 				m_othHardAI = new OthHardAI();
 			}
 		}
-		update(getGame().getBoard(), "Black", "White");
+
+		if(this.getIsC4() == true){
+			update(getGame().getBoard(), "Red", "Yellow");
+		} else if (this.getIsOth() == true) {
+			update(getGame().getBoard(), "Black", "White");
+		} else {
+			update(getGame().getBoard(), "O", "X");
+		}
 
 		//no idea
 		pack();
-	    setLocationRelativeTo(null);
+	  setLocationRelativeTo(null);
 		setVisible(true);
 	// }
   }
@@ -946,7 +995,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 		setBoard();
 		setContainer();
 		setImages();
-	    setTurnLabel();
+	  setTurnLabel();
 		setNewGameButton();
 		setSaveButton();
 		setMainMenuButton();
@@ -1030,13 +1079,13 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 		setVisible(true);
 		m_Loading = false;
   }
-  
+
   /**
    * Main method for testing ProgramController class
    * void ProgramController method tests all other methods of the ProgramController class
    */
   public static void main(String[] args) {
-	  
+
 	  final int C4_HEIGHT = 7;
 	  final int C4_WIDTH = 10;
 	  final int OTH_WIDTH = 8;
@@ -1044,7 +1093,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	  final int TEST_VALUE = 1;
 	  final int SET_C4 = 0;
 	  final int SET_NOT_C4 = 1;
-	  
+
 	  /*
 	   * Test One
 	   * Creating an instance of ProgramController for a C4 Game
@@ -1052,16 +1101,16 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	  ProgramController testPC1 = new ProgramController();
 	  testPC1.setIsC4(0);
 	  testPC1.setGame("player1", "player2");
-		
+
 	  Piece[][] testPieceLayout = new Piece[C4_WIDTH][C4_HEIGHT];
 	  for (int i = 0; i < C4_HEIGHT; i++) {
 		  for (int j = 0; j < C4_WIDTH; j++) {
 			  testPieceLayout[j][i] = new Piece("");
 	  	  }
 	  }
-	  		
+
 	  try {
-			
+
 		  testPC1.ProgramController(SET_C4, 0, "player1", "player2", testPieceLayout, TEST_VALUE, TEST_VALUE);
 		  System.out.println("ProgramController C4 Test Evaluated: Correct");
 	  } catch (Exception e) {
@@ -1069,7 +1118,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	  } finally {
 		  testPC1.setVisible(false);
 	  }
-		
+
 	  /*
 	   * Test Two
 	   * Creating an instance of ProgramController for an Othello Game
@@ -1077,16 +1126,16 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	  ProgramController testPC2 = new ProgramController();
 	  testPC2.setIsC4(1);
 	  testPC2.setGame("player1", "player2");
-			
+
 	  Piece[][] testPieceLayout2 = new Piece[OTH_WIDTH][OTH_HEIGHT];
 	  for (int i = 0; i < OTH_HEIGHT; i++) {
 		  for (int j = 0; j < OTH_WIDTH; j++) {
 			  testPieceLayout2[j][i] = new Piece("");
 		  }
 	  }
-		  		
+
 	  try {
-				
+
 		  testPC2.ProgramController(SET_NOT_C4, 0, "player1", "player2", testPieceLayout2, TEST_VALUE, TEST_VALUE);
 		  System.out.println("ProgramController Othello Test Evaluated: Correct");
 	  } catch (Exception e) {
@@ -1096,9 +1145,13 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	  }
   }
 
-    // Class Constants
-    // AI and Player Number Constants
-    private final int PLAYER_ONE = 0;
+  public void mousePressed(MouseEvent e) {}
+  public void mouseReleased(MouseEvent e) {}
+  public void mouseExited(MouseEvent e) {}
+
+  // Class Constants
+  // AI and Player Number Constants
+  private final int PLAYER_ONE = 0;
 	private final int PLAYER_TWO = 1;
 	private final int HUMAN = 0;
 	private final int EASY_AI = 1;
@@ -1109,14 +1162,14 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 	private final int EASY_CHOICE = 1;
 	private final int HARD_CHOICE = 2;
 	private final int HUMAN_AND_HARD_CHOICE = 2;
-    private final int LOOP_MAX = 8;
-    private final int LOOP_MAX_C4_ONE = 7;
-    private final int LOOP_MAX_C4_TWO = 10;
-    private final int INCREMENT_TWO = 2;
+  private final int LOOP_MAX = 8;
+  private final int LOOP_MAX_C4_ONE = 7;
+  private final int LOOP_MAX_C4_TWO = 10;
+  private final int INCREMENT_TWO = 2;
 
 	// Size and Math Constants
 	private final int TIMER_GRID_WIDTH = 10;
-    private final int TURN_GRID_WIDTH = 8;
+  private final int TURN_GRID_WIDTH = 8;
 	private final int NEW_GAME_GRID_WIDTH = 2;
 	private final int DIVIDE_BY_TWO = 2;
 	private final int CONTAINER_64 = 64;
@@ -1159,6 +1212,7 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 
 	// Member variable that stores which game is being played, if false then othello is being played
   private static boolean m_IsC4;
+  private static boolean m_IsOth;
 
 	/* Member variable that stores game being played */
   private static AbstractGameImplementation m_Game;
@@ -1169,15 +1223,15 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 
 	/** Initialisation of UI elements */
 	private static BufferedImage m_Background_Image;
-    private C4AndOthelloBoardStore m_Board;
-    private JLabel[][] m_Image_Labels;
+  private C4AndOthelloBoardStore m_Board;
+  private JLabel[][] m_Image_Labels;
 	private JButton m_NewGameButton;
 	private JButton m_SaveButton;
 	private JButton m_MainMenuButton;
 	private JLabel m_TurnLabel;
 	private JLabel m_TimerLabel;
 	private JLabel m_TurnNumberLabel;
-    private Container m_Container;
+  private Container m_Container;
 	private GridBagConstraints m_Constraints;
 
 

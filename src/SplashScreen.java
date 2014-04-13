@@ -13,15 +13,15 @@ import java.io.File;
  * @author Jamie I Davies
  * @date March 25, 2014
  * @brief This class creates all the swing objects for the Splash Screen of the game
- * 
+ *
  */
 public class SplashScreen extends JFrame{
 
     private Main m_splash;
     private Main m_options;
     private Main m_playerNames;
-    private static final int SPLASH_JFRAME_WIDTH = 732;
-    private static final int SPLASH_JFRAME_HEIGHT = 288;
+    private static final int SPLASH_JFRAME_WIDTH = 1110;
+    private static final int SPLASH_JFRAME_HEIGHT = 285;
     private static final int PLAYER_JFRAME_WIDTH = 360;
     private static final int PLAYER_JFRAME_HEIGHT = 330;
     private static final int PLAYNAMES_JFRAME_WIDTH = 280;
@@ -72,8 +72,10 @@ public class SplashScreen extends JFrame{
         m_splash.getContentPane().add(panel);
         ImageIcon c4ButtonIMG = new ImageIcon("../Images/C4SplashScreenImage.png");
         ImageIcon othButtonIMG = new ImageIcon("../Images/OthSplashScreenImage.png");
+        ImageIcon tttButtonIMG = new ImageIcon("../Images/TTTSplashScreenImage.png");
         JButton c4Button = new JButton("", c4ButtonIMG);
         JButton othButton = new JButton("", othButtonIMG);
+        JButton tttButton = new JButton("", tttButtonIMG);
 
         // action listener for the C4 button
         c4Button.addActionListener(new ActionListener() {
@@ -90,7 +92,7 @@ public class SplashScreen extends JFrame{
             }
         });
          // othello button action listener
-            othButton.addActionListener(new ActionListener() {
+        othButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 //call the options splash screen
@@ -103,9 +105,24 @@ public class SplashScreen extends JFrame{
                 System.out.println("Othello: " + m_UIState);
             }
         });
+         // othello button action listener
+        tttButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                //call the options splash screen
+                System.out.println("Play TicTacToe^2...");
+                gameChoice = 2;
+                m_splash.setVisible(false);
+
+                initPlayerOptions();
+                m_UIState = 3;
+                System.out.println("TicTacToe^2: " + m_UIState);
+            }
+        });
         //add buttons to panel
         panel.add(c4Button);
         panel.add(othButton);
+        panel.add(tttButton);
         //initialise JFrame
         m_splash.setTitle("A5 Complete Implementation : Connect 4 and Othello : Group 3 ");
         m_splash.setSize(SPLASH_JFRAME_WIDTH, SPLASH_JFRAME_HEIGHT);
@@ -371,9 +388,6 @@ public class SplashScreen extends JFrame{
         m_playerNames.setLocationRelativeTo(null);
         m_playerNames.setDefaultCloseOperation(EXIT_ON_CLOSE);
         m_playerNames.setResizable(false);
-        
-        
-
     }
 
     /**
@@ -416,8 +430,6 @@ public class SplashScreen extends JFrame{
 	 * Takes no arguments
 	 */
     public static void main(String args[]) {
-
-
     	/*
     	 * Test One
     	 * Calling the SplashScreen Constructor

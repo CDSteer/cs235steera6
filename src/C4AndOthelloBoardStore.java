@@ -79,7 +79,7 @@ public class C4AndOthelloBoardStore {
     }
 
     public void setPiece2(Piece piece, int column, int row) {
-        System.out.println("Board::setPiece()");
+        System.out.println("Board::setPiece2()");
         m_Board[column][row] = HAS_PIECE_OBJECT;
         m_Pieces[column][row] = piece;
     }

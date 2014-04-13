@@ -49,13 +49,13 @@ public class OthEasyAI {
 		return m_selectedMoves;
 
 	}
-	
+
 	/**
 	 * Main method for class tests on OthEasyAI
 	 * Takes no arguments
 	 */
 	public static void main(String[] args) {
-		
+
 		/*
 		 * Test One
 		 * Calling OthEasyAI.selectCol on an Oth Board with default starting state.
@@ -79,6 +79,6 @@ public class OthEasyAI {
 		else {
 			System.out.println("C4EasyAI.selectCol Evaluated: Incorrect");
 		}
-		
+
 	}
 }

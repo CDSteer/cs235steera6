@@ -58,9 +58,9 @@ abstract public class AbstractGameImplementation {
 	 *	@param	player	Player which wants to set the Piece.
 	 *	@return null
 	 */
-    public void setPiece(int x, int y, AbstractPlayer player){}
+  public void setPiece(int x, int y, AbstractPlayer player){}
 
-    public abstract Piece getPiece(int y, int x);
+  public abstract Piece getPiece(int y, int x);
 
 	/** Method to get the board object
 	*	@return m_Board		Return the current board object
@@ -124,15 +124,15 @@ abstract public class AbstractGameImplementation {
 	 *	@return	boolean		Returns true or false if board is full or not.
 	 */
     public boolean isBoardFull(int boardWidth, int boardHeight) {
-        boolean boardFull = true;
-            for (int i = 0; i < boardWidth; i++) {
-                for (int j = 0; j < boardHeight; j++) {
-                    if (m_Board.isEmpty(i,j) == true) {
-                        boardFull = false;
-                    }
+      boolean boardFull = true;
+      for (int i = 0; i < boardWidth; i++) {
+        for (int j = 0; j < boardHeight; j++) {
+          if (m_Board.isEmpty(i,j) == true) {
+            boardFull = false;
+          }
 				}
-            }
-        return boardFull;
+      }
+      return boardFull;
     }
 
 	/**

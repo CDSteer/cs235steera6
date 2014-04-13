@@ -42,15 +42,15 @@ public class C4EasyAI {
 
 		return m_selectedCol;
 	}
-	
+
 	/**
 	 * Main method for class tests on C4EasyAI
 	 * Takes no arguments
 	 */
 	public static void main(String[] args) {
-		
+
 		final int TEST_CONSTANT_2 = 2;
-		
+
 		/*
 		 * Test One
 		 * Calling C4EasyAI.selectCol on an empty C4 Board.
@@ -71,7 +71,7 @@ public class C4EasyAI {
 		else {
 			System.out.println("C4EasyAI.selectCol Evaluated: Incorrect");
 		}
-		
+
 		/*
 		 * Test Two
 		 * Calling C4EasyAI.selectCol on a partially filled C4 Board.
@@ -83,12 +83,12 @@ public class C4EasyAI {
 		testPC2.setGame("player1", "player2");
 		testBoard2.setBoardHeight(BOARD_HEIGHT);
 		testBoard2.setBoardHeight(BOARD_WIDTH);
-		testBoard2.setBoard(BOARD_WIDTH, BOARD_HEIGHT);	
+		testBoard2.setBoard(BOARD_WIDTH, BOARD_HEIGHT);
 		for(int i = 0; i < BOARD_WIDTH; i++) {
 			testBoard2.setPiece(new Piece("Red"), i, BOARD_HEIGHT - TEST_CONSTANT_2);
 		}
 		testPC2.setBoard(testBoard2);
-		
+
 		int selectedCol2 = testAI2.selectCol(testPC2);
 		if(selectedCol2 >= 0 && selectedCol2 < BOARD_WIDTH) {
 			System.out.println("C4EasyAI.selectCol Evaluated: Correct");
@@ -96,7 +96,7 @@ public class C4EasyAI {
 		else {
 			System.out.println("C4EasyAI.selectCol Evaluated: Incorrect");
 		}
-		
+
 	}
 
 }

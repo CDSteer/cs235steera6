@@ -296,16 +296,14 @@ public class C4SaveManager {
       System.out.println("Returning to menu......");
     }
   }
-  private static final String PATH = "../SAVEDATA/C4/";
-  private static final String FILETYPE = ".csv";
-  private static final int BOARD_ROWS = 7;
-  private static final int BOARD_COLS = 10;
-  private static final String SAVE = "save";
-  private static final int SEVENTH_ROW = 7;
-  private static final int FIFTH_ROW = 5;
-  private static final int SIXTH_ROW = 6;
-  private static final int FOURTH_ROW = 4;
-  private static final int THIRD_ROW = 3;
-
-
+private static final String PATH = "../SAVEDATA/C4/";
+private static final String FILETYPE = ".csv";
+private static final int BOARD_ROWS = 7;
+private static final int BOARD_COLS = 10;
+private static final String SAVE = "save";
+private static final int SEVENTH_ROW = 7;
+private static final int FIFTH_ROW = 5;
+private static final int SIXTH_ROW = 6;
+private static final int FOURTH_ROW = 4;
+private static final int THIRD_ROW = 3;
 }
