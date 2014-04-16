@@ -906,13 +906,9 @@ public class ProgramController extends JFrame implements MouseListener, ActionLi
 		}else if (getIsOth() == true){
 			highlight.othWinStateHighlighter(getGame().getWinningi(), getGame().getWinningj(), getLabels(), getGame());
 		} else {
+			updateScore();
 			highlight.tttWinStateHighlighter(getGame().getWinningi(), getGame().getWinningj(), getLabels(), getGame());
-			//try {
-				othAI.stop();
-			//}catch (InterruptedException e){
-				//System.out.println("AI cannot be stoped");
-			//}
-				updateScore();
+			othAI.interrupt();
 		}
 	}
 
