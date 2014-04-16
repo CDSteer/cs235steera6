@@ -172,7 +172,7 @@ public class WinStateHighlighter{
 		try {
 			testHighlight.c4WinStateHighlighter(0, 0, board, game);
 		} catch (IOException e) {
-			System.out.println("Connect4WinStateHighlighter()::setWinner(1) - Exception found");
+			System.out.println("WinStateHighlighter()::setWinner(1) - Exception found");
 		}
 
 		/* Player 2 has won the game */
@@ -182,7 +182,7 @@ public class WinStateHighlighter{
 		try{
 			testHighlight.c4WinStateHighlighter(0, 0, board, game);
 		}catch(IOException e){
-			System.out.println("Connect4WinStateHighLighter()::setWinner(2) - Exception found");
+			System.out.println("WinStateHighLighter()::setWinner(2) - Exception found");
 		}
 
 	}

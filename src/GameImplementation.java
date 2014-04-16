@@ -106,6 +106,20 @@ abstract public class GameImplementation {
         return m_Player[playerNumber];
     }
 
+  public int[] getNumberPieces() {
+    int totalPieces[] = new int[NUMBER_OF_PLAYERS];
+    for (int i = 0; i < m_Board.getBoardWidth(); i++) {
+      for (int j = 0; j < m_Board.getBoardHeight(); j++) {
+        if (getPiece(i,j).getColour().equals(getPlayer(0).getColour())) {
+         totalPieces[0]++;
+        }else if (getPiece(i,j).getColour().equals(getPlayer(1).getColour())) {
+          totalPieces[1]++;
+        }
+      }
+    }
+    return totalPieces;
+  }
+
 	/**
 	 *	A setter method to set the players, this method is called in the
 	 *	GameImplementation constructor.

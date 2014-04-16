@@ -228,8 +228,8 @@ public class MenuGUI extends JFrame{
             }
             try {
                 controller.ProgramController(gameChoice, playState, player1name, player2name, newBoard, turn, time);
+                m_playerNames.setVisible(false);
             } catch (IOException e) {
-
                 e.printStackTrace();
             }
         }
@@ -280,6 +280,7 @@ public class MenuGUI extends JFrame{
                 }
                 try {
                     controller.ProgramController(gameChoice, playState, player1name, player2name, newBoard, turn, time);
+                    m_playerNames.setVisible(false);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
