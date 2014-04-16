@@ -9,7 +9,7 @@
  *
  */
 
-public class TicTacToeLogic extends AbstractGameImplementation {
+public class TicTacToeLogic extends GameImplementation {
 
   //Member variables to store the winning move and position
   private int m_Winning_Move;
@@ -43,7 +43,7 @@ public class TicTacToeLogic extends AbstractGameImplementation {
    *  @param  player Player object which is the player attempting a move.
    *  @return boolean Returns true of false based depending on conditions.
    */
-  public boolean checkValid(int column, int row, AbstractPlayer player){
+  public boolean checkValid(int column, int row, Player player){
     System.out.println("TicTacToe^2::checkValid()");
     /* if the top of the column is not empty then the move is invalid */
     if(getBoard().isEmpty(column,row) == true){
@@ -105,7 +105,7 @@ public class TicTacToeLogic extends AbstractGameImplementation {
     m_Winning_j = j;
   }
 
-  public void setPiece(int x, int y, AbstractPlayer player) {
+  public void setPiece(int x, int y, Player player) {
     System.out.println("TicTacToeLogic::setPiece()");
     String playerColour = player.getColour();
     getBoard().setPiece(new Piece(playerColour), x, y);
@@ -210,7 +210,7 @@ public class TicTacToeLogic extends AbstractGameImplementation {
     final int ROW_SIX = 6;
 
     TicTacToeLogic ticTacToeLogic = new TicTacToeLogic();
-    AbstractPlayer testPlayer = new Human();
+    Player testPlayer = new Human();
     testPlayer.setColour("O");
 
     ticTacToeLogic.setPiece(0, 0, testPlayer);

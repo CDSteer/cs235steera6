@@ -8,7 +8,7 @@ import java.util.Random;
  * 		   if it is a valid move
  *
  */
-public class OthEasyAI {
+public class OthEasyAI extends Player{
 
 	// Class Constants
 	private static final int BOARD_ROWS = 8;
@@ -61,7 +61,7 @@ public class OthEasyAI {
 		 * Calling OthEasyAI.selectCol on an Oth Board with default starting state.
 		 */
 		ProgramController testPC = new ProgramController();
-		C4AndOthelloBoardStore testBoard = new C4AndOthelloBoardStore();
+		Board testBoard = new Board();
 		OthEasyAI testAI = new OthEasyAI();
 		testPC.setIsC4(1);
 		testPC.setGame("player1", "player2");

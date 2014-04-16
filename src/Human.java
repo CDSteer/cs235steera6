@@ -7,7 +7,7 @@ import java.io.*;
  * 		   pass the information to the program controller class to set the piece on the game board,
  *         update the game board and checks if that is a winning move.
  */
-public class Human extends AbstractPlayer{
+public class Human extends Player{
 	/**
 	*  Method move is used to make a move by a player at position (x,y).
 	*  \param  	x	Column position on a Board to move Piece.

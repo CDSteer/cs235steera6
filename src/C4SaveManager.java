@@ -17,7 +17,7 @@ import javax.swing.*;
  * or writes to a CSV file in order to save the games state.
  *
  */
-public class C4SaveManager {
+public class C4SaveManager extends SaveManager{
 
   private static boolean test = true;
   private String m_FileName;
@@ -27,6 +27,7 @@ public class C4SaveManager {
   private Piece[][] m_LoadBoard;
   private int m_option;
   private Connect4GameLogic m_Connect4GameLogic = new Connect4GameLogic();
+  private Scanner m_File;
 
   private String m_LoadGameType = "";
   private int m_LoadTime;
@@ -107,7 +108,7 @@ public class C4SaveManager {
    * @param the current games board state
    * @return boolean
    */
-  public boolean saveData(String gameType, C4AndOthelloBoardStore board, int time, String name1, String name2,
+  public boolean saveData(String gameType, Board board, int time, String name1, String name2,
                           String playerType1, String playerType2, int turn) throws IOException{
     System.out.println("Saving....");
     nameFile(SAVE);
@@ -145,8 +146,17 @@ public class C4SaveManager {
   public boolean loadData() throws IOException{
     showFileBrowser();
     m_FileName = PATH+ m_FileName;
+    m_File = new Scanner(new FileInputStream(m_FileName));
     if (fileFound()){
-      readGrid();
+      if (m_File.hasNextLine()) {
+        if (readGrid()){
+        } else {
+          return false;
+        }
+      } else {
+        JOptionPane.showMessageDialog(null, "Empty File");
+        return false;
+      }
     } else {
       return false;
     }
@@ -158,7 +168,7 @@ public class C4SaveManager {
    *
    * @return boolean
    */
-  private boolean readGrid() throws IOException{
+  public boolean readGrid() throws IOException{
 
     String[] row = null;
     Piece piece;
@@ -198,8 +208,7 @@ public class C4SaveManager {
     return true;
   }
 
-  // private boolean fileChooser(){
-  private void showFileBrowser() {
+  public void showFileBrowser() {
     JFrame frame = new JFrame();
     FileDialog fc = new FileDialog(frame, "Load a Game Save", FileDialog.LOAD);
     //set default directory
@@ -222,7 +231,7 @@ public class C4SaveManager {
    *
    * @return boolean
    */
-  private boolean fileFound(){
+  public boolean fileFound(){
 
     try{
 
@@ -242,7 +251,7 @@ public class C4SaveManager {
    *
    * @return boolean
    */
-  private boolean nameFile(String op) throws IOException{
+  public boolean nameFile(String op) throws IOException{
 
     try{
 
@@ -259,7 +268,7 @@ public class C4SaveManager {
     Piece[][] newBoard = new Piece[BOARD_ROWS][BOARD_COLS];
     Connect4GameLogic connect4GameLogic = new Connect4GameLogic();
     C4SaveManager c4SaveManager = new C4SaveManager();
-    C4AndOthelloBoardStore board = new C4AndOthelloBoardStore();
+    Board board = new Board();
 
     String gameType = "C4";
     int time = 60;

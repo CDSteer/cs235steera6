@@ -13,6 +13,7 @@ import javax.swing.*;
  */
 
 public class WinStateHighlighter{
+	int m_Winner;
 	/**
 	 * Method for highlighting the winning combination in connect 4.
 	 * @param column				The column which contains the Piece
@@ -23,7 +24,7 @@ public class WinStateHighlighter{
 	 *  class can access various methods that it uses.
 	 *	@return null
 	 */
-	public void connect4WinStateHighlighter(int column, int row, JLabel[][] board, AbstractGameImplementation game) throws IOException{
+	public void c4WinStateHighlighter(int column, int row, JLabel[][] board, GameImplementation game) throws IOException{
 		BufferedImage highlight_Piece = null;
 		int winningMove = game.getWinningMove();
 
@@ -73,7 +74,7 @@ public class WinStateHighlighter{
 	 *  class can access various methods that it uses.
 	 *	@return null
 	 */
-	public void tttWinStateHighlighter(int column, int row, JLabel[][] board, AbstractGameImplementation game) throws IOException{
+	public void tttWinStateHighlighter(int column, int row, JLabel[][] board, GameImplementation game) throws IOException{
 		BufferedImage highlight_Piece = null;
 		int winningMove = game.getWinningMove();
 
@@ -113,9 +114,48 @@ public class WinStateHighlighter{
 		}
 	}
 
+	/**
+	 * Method for highlighting the winning combination in connect 4.
+	 * @param column				The column which contains the Piece
+	 *	which begins the chain of winning pieces in Connect 4.
+	 * @param row					The row which contains the Piece
+	 *  which begins the chain of winning pieces in Connect 4.
+	 * @param ProgramController		The program controller, so that the
+	 *  class can access various methods that it uses.
+	 *	@return null
+	 */
+	public void othWinStateHighlighter(int column, int row, JLabel[][] board, GameImplementation game) throws IOException{
+		BufferedImage highlight_Piece = null;
+		int winningMove = game.getWinningMove();
+
+		if(game.getWinner() == PLAYER_ONE){
+			m_Winner = 0;
+			String directory = "../Images/BlackPieceHighlighted.png";
+			highlight_Piece = ImageIO.read(new File(directory));
+		}else if(game.getWinner() == PLAYER_TWO){
+			m_Winner = 1;
+			String directory = "../Images/WhitePieceHighlighted.png";
+			highlight_Piece = ImageIO.read(new File(directory));
+		}else{
+			System.out.println("No Win highlighting image found");
+		}
+		try{
+	    for(int y = 0; y<HEIGHT; y++){
+	      for(int x = 0; x<WIDTH; x++){
+	      	if (game.getBoard().getPiece(y,x).getColour().equals(game.getPlayer(m_Winner).getColour())){
+	      		board[y][x].setIcon(new ImageIcon(highlight_Piece));
+	      	}
+	      }
+	    }
+
+		}catch(NullPointerException e){
+			System.out.println("Must have been a draw!");
+		}
+	}
+
 	public static void main(String[] args){
 		// Testing
-		AbstractGameImplementation game = new Connect4GameLogic();
+		GameImplementation game = new Connect4GameLogic();
 		WinStateHighlighter testHighlight = new WinStateHighlighter();
 		JLabel[][] board = new JLabel[game.getBoard().getBoardWidth()][game.getBoard().getBoardHeight()];
 
@@ -130,7 +170,7 @@ public class WinStateHighlighter{
 		game.setWinner(1);
 
 		try {
-			testHighlight.connect4WinStateHighlighter(0, 0, board, game);
+			testHighlight.c4WinStateHighlighter(0, 0, board, game);
 		} catch (IOException e) {
 			System.out.println("Connect4WinStateHighlighter()::setWinner(1) - Exception found");
 		}
@@ -140,7 +180,7 @@ public class WinStateHighlighter{
 		game.setWinner(2);
 
 		try{
-			testHighlight.connect4WinStateHighlighter(0, 0, board, game);
+			testHighlight.c4WinStateHighlighter(0, 0, board, game);
 		}catch(IOException e){
 			System.out.println("Connect4WinStateHighLighter()::setWinner(2) - Exception found");
 		}
@@ -152,6 +192,9 @@ public class WinStateHighlighter{
 	private final int VERTICAL_WIN = 1;
 	private final int RIGHT_DIAGONAL_WIN = 2;
 	private final int LEFT_DIAGONAL_WIN = 3;
+
+	private final int HEIGHT = 8;
+	private final int WIDTH = 8;
 
 	private final int PLAYER_ONE = 1;
 	private final int PLAYER_TWO = 2;

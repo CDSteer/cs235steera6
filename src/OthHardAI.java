@@ -8,7 +8,7 @@ import java.util.Random;
  * 		   and randomly selecting a move if there is no highest.
  *
  */
-public class OthHardAI {
+public class OthHardAI extends Player{
 
 	// Class constants
 	private static final int BOARD_WIDTH = 8;
@@ -26,8 +26,8 @@ public class OthHardAI {
 	private final String PLAYER_TWO_PIECE_COLOUR = "White";
 
 	// variables holding class objects
-	private AbstractPlayer humanPlayer;
-	private AbstractPlayer AIPlayer;
+	private Player humanPlayer;
+	private Player AIPlayer;
 	private OthelloGameLogic othello;
 
 	// Arrays holding current board state and intermediate calculation states
@@ -146,7 +146,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkVerticalDown(int row, int col, AbstractPlayer player) {
+	private void checkVerticalDown(int row, int col, Player player) {
 
 		if(col == (BOARD_HEIGHT - 1)) { return; }
 
@@ -170,7 +170,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkVerticalUp(int row, int col, AbstractPlayer player) {
+	private void checkVerticalUp(int row, int col, Player player) {
 
 		if(col == 0) { return; }
 
@@ -196,7 +196,7 @@ public class OthHardAI {
 
 	}
 
-	private void checkRowsRight(int row, int col, AbstractPlayer player) {
+	private void checkRowsRight(int row, int col, Player player) {
 
 		if(row == (BOARD_WIDTH - 1)) { return; }
 
@@ -221,7 +221,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkRowsLeft(int row, int col, AbstractPlayer player) {
+	private void checkRowsLeft(int row, int col, Player player) {
 
 		if(row == 0) { return; }
 
@@ -246,7 +246,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkDiagUpRight(int row, int col, AbstractPlayer player) {
+	private void checkDiagUpRight(int row, int col, Player player) {
 
 		if(row == (BOARD_WIDTH - 1)|| col == 0) { return; }
 
@@ -271,7 +271,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkDiagUpLeft(int row, int col, AbstractPlayer player) {
+	private void checkDiagUpLeft(int row, int col, Player player) {
 
 		if(row == 0 || col == 0) { return; }
 
@@ -296,7 +296,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkDiagDownRight(int row, int col, AbstractPlayer player) {
+	private void checkDiagDownRight(int row, int col, Player player) {
 
 		if(row == (BOARD_WIDTH - 1)|| col == (BOARD_HEIGHT - 1)) { return; }
 
@@ -321,7 +321,7 @@ public class OthHardAI {
 		}
 	}
 
-	private void checkDiagDownLeft(int row, int col, AbstractPlayer player) {
+	private void checkDiagDownLeft(int row, int col, Player player) {
 
 		if(row == 0 || col == (BOARD_HEIGHT - 1)) { return; }
 
@@ -361,7 +361,7 @@ public class OthHardAI {
 		 * Calling OthHardAI.selectMove on an Oth Board with default starting state.
 		 */
 		ProgramController testPC = new ProgramController();
-		C4AndOthelloBoardStore testBoard = new C4AndOthelloBoardStore();
+		Board testBoard = new Board();
 		OthHardAI testAI = new OthHardAI();
 		testPC.setIsC4(1);
 		testPC.setGame("player1", "player2");
@@ -388,7 +388,7 @@ public class OthHardAI {
 		 * Calling OthHardAI.selectMove on an Oth Board with non-default starting state.
 		 */
 		ProgramController testPC2 = new ProgramController();
-		C4AndOthelloBoardStore testBoard2 = new C4AndOthelloBoardStore();
+		Board testBoard2 = new Board();
 		OthHardAI testAI2 = new OthHardAI();
 		testPC2.setIsC4(1);
 		testPC2.setGame("player1", "player2");

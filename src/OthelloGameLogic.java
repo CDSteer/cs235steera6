@@ -7,14 +7,14 @@
  *
  */
 
-public class OthelloGameLogic extends AbstractGameImplementation {
+public class OthelloGameLogic extends GameImplementation {
 	/**
 	 * Method for placing a piece on the board
 	 * @param x			The x position the Piece is placed on the board.
 	 * @param y			The y position the Piece is placed on the board.
 	 * @param player	the Player that is setting the piece.
 	*/
-	public void setPiece(int x, int y, AbstractPlayer player) {
+	public void setPiece(int x, int y, Player player) {
         if (checkValid(x, y, player) == true) {
 			String playerColour = player.getColour();
 
@@ -31,7 +31,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
         }
     }
 
-  	public void setPiece(int x, int y, AbstractPlayer player, boolean load) {
+  	public void setPiece(int x, int y, Player player, boolean load) {
   		if (load){
   			String playerColour = player.getColour();
         getBoard().setPiece(new Piece(playerColour), x, y);
@@ -108,7 +108,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The Player you don't want the colour for
 	 * @return colour	The colour of the opponent to the Player passed in.
 	 */
-	private String getOtherPlayerColour(AbstractPlayer player) {
+	private String getOtherPlayerColour(Player player) {
 		if (getPlayer(0) != player) {
 			return getPlayer(0).getColour();
 		} else {
@@ -128,7 +128,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player		The Player you want to check if it is possible to take a turn for.
 	 * @return takeable		This will return true if a Player is able to take a turn.
 	 */
-	public boolean checkTakeableTurn(AbstractPlayer player) {
+	public boolean checkTakeableTurn(Player player) {
 		boolean takeable = false;
 		for (int i = 0; i < BOARD_WIDTH; i++) {
 			for (int j = 0; j < BOARD_WIDTH; j++) {
@@ -185,7 +185,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The Player which you are checking if there are checking if there are flips above for.
 	 * @return flip		Returns if there is a Piece that will be flipped for the Player above the specified position.
 	 */
-	private boolean checkFlipNorth(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipNorth(int x, int y, Player player) {
 		String playerColour = player.getColour();
 		String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -221,7 +221,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 *  Player below the specified position.
 	 */
-	private boolean checkFlipSouth(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipSouth(int x, int y, Player player) {
 		String playerColour = player.getColour();
        	String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -257,7 +257,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 * Player left of the specified position.
 	 */
-	private boolean checkFlipWest(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipWest(int x, int y, Player player) {
         String playerColour = player.getColour();
 		String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -293,7 +293,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 * player right of the specified position.
 	 */
-	private boolean checkFlipEast(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipEast(int x, int y, Player player) {
 		String playerColour = player.getColour();
         String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -329,7 +329,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 * player above and left of the specified position.
 	 */
-	private boolean checkFlipNorthWest(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipNorthWest(int x, int y, Player player) {
 		String playerColour = player.getColour();
 		String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -369,7 +369,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 * Player above and right of the specified position.
 	 */
-	private boolean checkFlipNorthEast(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipNorthEast(int x, int y, Player player) {
 		String playerColour = player.getColour();
         String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -409,7 +409,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 * Player above and right of the specified position.
 	 */
-	private boolean checkFlipSouthEast(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipSouthEast(int x, int y, Player player) {
 		String playerColour = player.getColour();
         String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -449,7 +449,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return flip		Returns if there is a Piece that will be flipped for the
 	 * Player above and left of the specified position.
 	 */
-	private boolean checkFlipSouthWest(int x, int y, AbstractPlayer player) {
+	private boolean checkFlipSouthWest(int x, int y, Player player) {
 		String playerColour = player.getColour();
         String otherPlayerColour = getOtherPlayerColour(player);
 
@@ -484,12 +484,12 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 *	Pieces that will be flipped if placed there.
 	 * @param y				The y position of the Piece you want to check if there are
 	 *	Pieces that will be flipped if placed there
-	 * @param AbstractPlayer		The Player which you are checking if there are checking if
+	 * @param Player		The Player which you are checking if there are checking if
 	 *  there are flips for.
 	 * @return flip			Returns true if there is a Piece that will be flipped for the
 	 *  Player at the specified position.
 	 */
-	private boolean checkFlip(int x, int y, AbstractPlayer player) {
+	private boolean checkFlip(int x, int y, Player player) {
 		boolean validity = false;
 
 		// Checking if there is a flip above the selected position
@@ -546,7 +546,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @return valid	This will return true if a move is valid for a Player at
 	 *  that position.
 	 */
-	public boolean checkValid(int x, int y, AbstractPlayer player){
+	public boolean checkValid(int x, int y, Player player){
 		if (getBoard().isEmpty(x,y) == true) {
 			return checkFlip(x,y,player);
 		} else {
@@ -562,7 +562,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipNorth(int x, int y, AbstractPlayer player) {
+	private void flipNorth(int x, int y, Player player) {
 		if (checkFlipNorth(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -588,7 +588,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipSouth(int x, int y, AbstractPlayer player) {
+	private void flipSouth(int x, int y, Player player) {
 		if (checkFlipSouth(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -615,7 +615,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipWest(int x, int y, AbstractPlayer player) {
+	private void flipWest(int x, int y, Player player) {
 		if (checkFlipWest(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -641,7 +641,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipEast(int x, int y, AbstractPlayer player) {
+	private void flipEast(int x, int y, Player player) {
 		if (checkFlipEast(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -667,7 +667,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipNorthWest(int x, int y, AbstractPlayer player) {
+	private void flipNorthWest(int x, int y, Player player) {
 		if (checkFlipNorthWest(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -696,7 +696,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipNorthEast(int x, int y, AbstractPlayer player) {
+	private void flipNorthEast(int x, int y, Player player) {
 		if (checkFlipNorthEast(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -724,7 +724,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipSouthEast(int x, int y, AbstractPlayer player) {
+	private void flipSouthEast(int x, int y, Player player) {
 		if (checkFlipSouthEast(x, y, player) == true) {
 			String playerColour = player.getColour();
             String otherPlayerColour = getOtherPlayerColour(player);
@@ -752,7 +752,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
 	 * @param player	The player which causes the flip.
 	 * @return null
 	 */
-	private void flipSouthWest(int x, int y, AbstractPlayer player) {
+	private void flipSouthWest(int x, int y, Player player) {
 
 		if (checkFlipSouthWest(x, y, player) == true) {
 			String playerColour = player.getColour();
@@ -780,7 +780,7 @@ public class OthelloGameLogic extends AbstractGameImplementation {
     final int ROW_SIX = 6;
 
 		OthelloGameLogic othelloGameLogic = new OthelloGameLogic();
-		AbstractPlayer testPlayer = new Human();
+		Player testPlayer = new Human();
 		testPlayer.setColour("Black");
 
 		othelloGameLogic.setPiece(0, 0, testPlayer);

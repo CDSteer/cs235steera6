@@ -15,7 +15,7 @@ import java.io.File;
  * @brief This class creates all the swing objects for the Splash Screen of the game
  *
  */
-public class SplashScreen extends JFrame{
+public class MenuGUI extends JFrame{
 
     private Main m_splash;
     private Main m_options;
@@ -49,12 +49,12 @@ public class SplashScreen extends JFrame{
     private C4SaveManager c4SaveManager = new C4SaveManager();
     private OthSaveManager othSaveManager = new OthSaveManager();
     private int turn, time;
-    private int m_UIState;
+    private int m_UIState = 3;
 
     /**
      * Set splash screen to visible
      */
-    public SplashScreen(){
+    public MenuGUI(){
         m_splash = new Main();
         m_splash.setVisible(true);
         m_options = new Main();
@@ -217,7 +217,7 @@ public class SplashScreen extends JFrame{
                 turn = othSaveManager.getLoadTurn();
                 time = othSaveManager.getLoadTime();
                 OthelloGameLogic othGameLogic = othSaveManager.getLoadGame();
-                C4AndOthelloBoardStore board = othGameLogic.getBoard();
+                Board board = othGameLogic.getBoard();
                 newBoard = board.getBoard();
 
                 for (int i = 0; i < OTH_LOOP_MAX; i++) {
@@ -236,56 +236,63 @@ public class SplashScreen extends JFrame{
         });
 
         // action listener for the load button
-            loadButtonC4.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent event) {
-                    Piece[][] newBoard = new Piece[LOOP_MAX_TWO][LOOP_MAX_ONE];
-                    try {
-                        c4SaveManager.loadData();
-                    } catch (IOException e) {
+        loadButtonC4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                Piece[][] newBoard = new Piece[LOOP_MAX_TWO][LOOP_MAX_ONE];
+                try {
+                    if (c4SaveManager.loadData()){
+                        System.out.println("Data loaded");
+                    } else {
                         System.out.println("Can't Load Data");
                         JOptionPane.showMessageDialog(null, "Can't Load Data");
-                        e.printStackTrace();
                     }
-                    ProgramController controller = new ProgramController();
-                    controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                } catch (IOException e) {
+                    System.out.println("Can't Load Data");
+                    JOptionPane.showMessageDialog(null, "Can't Load Data");
+                    //e.printStackTrace();
+                }
+                ProgramController controller = new ProgramController();
+                controller.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                    if (c4SaveManager.getLoadGameType().equals("C4")) {
-                        gameChoice = 0;
-                        if (c4SaveManager.getLoadPlayerType2().equals("Human")) {
-                            playState = 0;
-                        } else if (c4SaveManager.getLoadPlayerType2().equals("Easy")) {
-                            playState = 1;
-                        } else if (c4SaveManager.getLoadPlayerType2().equals("Hard")) {
-                            playState = PLAY_STATE_HARD;
-                        }
-                        player1name = c4SaveManager.getLoadName1();
-                        player2name = c4SaveManager.getLoadName2();
-                        turn = c4SaveManager.getLoadTurn();
-                        time = c4SaveManager.getLoadTime();
-                        Connect4GameLogic connect4GameLogic = c4SaveManager.getLoadGame();
-                        C4AndOthelloBoardStore board = connect4GameLogic.getBoard();
-                        newBoard = board.getBoard();
-
-                        for (int i = 0; i < LOOP_MAX_ONE; i++) {
-                            for (int j = 0; j < LOOP_MAX_TWO; j++) {
-                                System.out.println(newBoard[j][i].getColour());
-                            }
-                        }
+                if (c4SaveManager.getLoadGameType().equals("C4")) {
+                    gameChoice = 0;
+                    if (c4SaveManager.getLoadPlayerType2().equals("Human")) {
+                        playState = 0;
+                    } else if (c4SaveManager.getLoadPlayerType2().equals("Easy")) {
+                        playState = 1;
+                    } else if (c4SaveManager.getLoadPlayerType2().equals("Hard")) {
+                        playState = PLAY_STATE_HARD;
                     }
-                    try {
-                        controller.ProgramController(gameChoice, playState, player1name, player2name, newBoard, turn, time);
-                    } catch (IOException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                    player1name = c4SaveManager.getLoadName1();
+                    player2name = c4SaveManager.getLoadName2();
+                    turn = c4SaveManager.getLoadTurn();
+                    time = c4SaveManager.getLoadTime();
+                    Connect4GameLogic connect4GameLogic = c4SaveManager.getLoadGame();
+                    Board board = connect4GameLogic.getBoard();
+                    newBoard = board.getBoard();
+
+                    for (int i = 0; i < LOOP_MAX_ONE; i++) {
+                        for (int j = 0; j < LOOP_MAX_TWO; j++) {
+                            System.out.println(newBoard[j][i].getColour());
+                        }
                     }
                 }
-            });
+                try {
+                    controller.ProgramController(gameChoice, playState, player1name, player2name, newBoard, turn, time);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
 
         //add buttons to panel
         playerOptionsPanel.add(humanButton);
         playerOptionsPanel.add(easyAIButton);
-        playerOptionsPanel.add(hardAIButton);
+        if (gameChoice == 0 || gameChoice == 1){
+            playerOptionsPanel.add(hardAIButton);
+        }
         if (gameChoice == 0){
             System.out.println("C4: "+m_UIState);
             playerOptionsPanel.add(loadButtonC4);
@@ -426,72 +433,72 @@ public class SplashScreen extends JFrame{
     }
 
     /**
-	 * Main method for class tests on SplashScreen
+	 * Main method for class tests on MenuGUI
 	 * Takes no arguments
 	 */
     public static void main(String args[]) {
     	/*
     	 * Test One
-    	 * Calling the SplashScreen Constructor
+    	 * Calling the MenuGUI Constructor
     	 */
     	try {
-    		SplashScreen testScreen1 = new SplashScreen();
-    		System.out.println("SplashScreen.constructor Evaluated: Correct");
+    		MenuGUI testScreen1 = new MenuGUI();
+    		System.out.println("MenuGUI.constructor Evaluated: Correct");
     	} catch(Exception e) {
-    		System.out.println("SplashScreen.constructor Evaluated: Incorrect");
+    		System.out.println("MenuGUI.constructor Evaluated: Incorrect");
     	}
 
     	/*
     	 * Test Two
-    	 * Calling the SplashScreen.initSplash method
+    	 * Calling the MenuGUI.initSplash method
     	 */
     	try{
-    		SplashScreen testScreen2 = new SplashScreen();
+    		MenuGUI testScreen2 = new MenuGUI();
     		testScreen2.initSplash();
-    		System.out.println("SplashScreen.initSplash Evaluated:: Correct");
+    		System.out.println("MenuGUI.initSplash Evaluated:: Correct");
     	} catch(Exception e) {
-    		System.out.println("SplashScreen.initSplash Evaluated:: Incorrect");
+    		System.out.println("MenuGUI.initSplash Evaluated:: Incorrect");
     	}
 
     	/*
     	 * Test Three
-    	 * Calling the SplashScreen.initPlayerOptions method
+    	 * Calling the MenuGUI.initPlayerOptions method
     	 */
     	try{
-    		SplashScreen testScreen3 = new SplashScreen();
+    		MenuGUI testScreen3 = new MenuGUI();
     		testScreen3.initPlayerOptions();
-    		System.out.println("SplashScreen.initPlayerOptions Evaluated:: Correct");
+    		System.out.println("MenuGUI.initPlayerOptions Evaluated:: Correct");
     	} catch(Exception e) {
-    		System.out.println("SplashScreen.initPlayerOptions Evaluated:: Incorrect");
+    		System.out.println("MenuGUI.initPlayerOptions Evaluated:: Incorrect");
     	}
 
     	/*
     	 * Test Four
-    	 * Calling the SplashScreen.initPlayerNaming method
+    	 * Calling the MenuGUI.initPlayerNaming method
     	 */
     	try{
-    		SplashScreen testScreen4 = new SplashScreen();
+    		MenuGUI testScreen4 = new MenuGUI();
     		testScreen4.initPlayerNaming();
-    		System.out.println("SplashScreen.initPlayerNaming Evaluated:: Correct");
+    		System.out.println("MenuGUI.initPlayerNaming Evaluated:: Correct");
     	} catch(Exception e) {
-    		System.out.println("SplashScreen.initPlayerNaming Evaluated: Incorrect");
+    		System.out.println("MenuGUI.initPlayerNaming Evaluated: Incorrect");
     	}
 
     	/*
     	 * Test Five
-    	 * Calling the SplashScreen.randomNameGen method
+    	 * Calling the MenuGUI.randomNameGen method
     	 */
     	try{
-    		SplashScreen testScreen5 = new SplashScreen();
+    		MenuGUI testScreen5 = new MenuGUI();
     		String testName = testScreen5.randomNameGen(0);
         	if(testName.equals("Easy AI")) {
-        		System.out.println("SplashScreen.randomNameGen Evaluated: Correct");
+        		System.out.println("MenuGUI.randomNameGen Evaluated: Correct");
         	} else {
-        		System.out.println("SplashScreen.randomNameGen Evaluated: Correct");
+        		System.out.println("MenuGUI.randomNameGen Evaluated: Correct");
         	}
 
     	} catch(Exception e) {
-    		System.out.println("SplashScreen.randomNameGen: Error in SplashScreen constructor");
+    		System.out.println("MenuGUI.randomNameGen: Error in MenuGUI constructor");
     	}
 
     }

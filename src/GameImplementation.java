@@ -8,7 +8,16 @@
  *
  */
 
-abstract public class AbstractGameImplementation {
+abstract public class GameImplementation {
+
+  /**
+   *  GameImplementation constructor. Initially calls setPlayer to
+   *  instantiate the games players.
+   */
+  public GameImplementation() {
+    setPlayer(PLAYER_ONE, new Human());
+    setPlayer(PLAYER_TWO, new Human());
+  }
 
 	/**
 	 *	A 'get' (access) method which is used in Connect 4
@@ -58,7 +67,7 @@ abstract public class AbstractGameImplementation {
 	 *	@param	player	Player which wants to set the Piece.
 	 *	@return null
 	 */
-  public void setPiece(int x, int y, AbstractPlayer player){}
+  public void setPiece(int x, int y, Player player){}
 
   public abstract Piece getPiece(int y, int x);
 
@@ -66,7 +75,7 @@ abstract public class AbstractGameImplementation {
 	*	@return m_Board		Return the current board object
 	*
 	*/
-	public C4AndOthelloBoardStore getBoard(){
+	public Board getBoard(){
         return m_Board;
     }
 
@@ -79,11 +88,11 @@ abstract public class AbstractGameImplementation {
 	 */
     public void setBoard(int boardWidth, int boardHeight) {
         System.out.println("GameImplementation::setBoard()");
-        m_Board = new C4AndOthelloBoardStore();
+        m_Board = new Board();
         m_Board.setBoard(boardWidth, boardHeight);
 
     }
-    public void setBoard(C4AndOthelloBoardStore board){
+    public void setBoard(Board board){
         m_Board = board;
     }
 
@@ -93,7 +102,7 @@ abstract public class AbstractGameImplementation {
 	 *	@return	Player			Returns the Player object from the array at
 	 *							index playerNumber.
 	 */
-	public AbstractPlayer getPlayer(int playerNumber){
+	public Player getPlayer(int playerNumber){
         return m_Player[playerNumber];
     }
 
@@ -104,17 +113,8 @@ abstract public class AbstractGameImplementation {
 	 *	@param	player			Player object.
 	 *	@return null
 	 */
-	private void setPlayer(int playerNumber, AbstractPlayer player) {
+	private void setPlayer(int playerNumber, Player player) {
 		m_Player[playerNumber] = player;
-	}
-
-	/**
-	 *	GameImplementation constructor. Initially calls setPlayer to
-	 *	instantiate the games players.
-	 */
-	public AbstractGameImplementation() {
-		setPlayer(PLAYER_ONE, new Human());
-		setPlayer(PLAYER_TWO, new Human());
 	}
 
 	/**
@@ -140,7 +140,7 @@ abstract public class AbstractGameImplementation {
 	 *	@param	player	A Player object whose turn is to be taken.
 	 *	@return	boolean	Return value is changed by subclass.
 	 */
-	public boolean checkTakeableTurn(AbstractPlayer player) {
+	public boolean checkTakeableTurn(Player player) {
 		return true;
 	}
 
@@ -150,7 +150,7 @@ abstract public class AbstractGameImplementation {
 	 *	@param	row		Row value of the Player move.
 	 *	@return	boolean	Return value is changed by subclass.
 	 */
-	public boolean checkValid(int column, int row, AbstractPlayer player){
+	public boolean checkValid(int column, int row, Player player){
         return false;
     }
 
@@ -172,7 +172,7 @@ abstract public class AbstractGameImplementation {
 		Member variables to store an array of the players, a board object
 		and the winner.
 	*/
-    private final AbstractPlayer[] m_Player  = new AbstractPlayer[NUMBER_OF_PLAYERS];
-    private C4AndOthelloBoardStore m_Board = new C4AndOthelloBoardStore();
+    private final Player[] m_Player  = new Player[NUMBER_OF_PLAYERS];
+    private Board m_Board = new Board();
     private int m_Winner;
 }

@@ -1,7 +1,7 @@
 /**
  * @author I.C. Skinner
  * @date 18 Feb '14
- * @see AbstractGameImplementation.java
+ * @see GameImplementation.java
  * @brief This class controls the Connect4 logic.
  * @details This class controls the 'flow' of the game, specific to Connect4 such as
  *	checking if there are 4 of the same coloured pieces in a vertical,
@@ -9,7 +9,7 @@
  *
  */
 
-public class Connect4GameLogic extends AbstractGameImplementation{
+public class Connect4GameLogic extends GameImplementation{
 
 	/**
 	 * connect 4 constructor
@@ -93,7 +93,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 	 *	@param	player Player object which is the player setting a piece.
 	 *	@return null
 	 */
-	public void setPiece(int column, int row, AbstractPlayer player){
+	public void setPiece(int column, int row, Player player){
         System.out.println("Connect4::setPiece()");
         int rowIndex = BOARD_HEIGHT-1;
         boolean columnNotFull = true;
@@ -141,7 +141,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 	 *	@param	player Player object which is the player to take a turn.
 	 *	@return boolean Returns true or false depending on conditions.
 	 */
-	public boolean checkTakeableTurn(AbstractPlayer player) {
+	public boolean checkTakeableTurn(Player player) {
 		if(checkWin() == true){
 			return false;
 		}else{
@@ -157,7 +157,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
 	 *	@param	player Player object which is the player attempting a move.
 	 *	@return	boolean	Returns true of false based depending on conditions.
 	 */
-	public boolean checkValid(int column, int row, AbstractPlayer player){
+	public boolean checkValid(int column, int row, Player player){
     System.out.println("Connect4::checkValid()");
 		/* if the top of the column is not empty then the move is invalid */
     if((getBoard()).isEmpty(column,TOP_ROW) == false){
@@ -256,7 +256,7 @@ public class Connect4GameLogic extends AbstractGameImplementation{
         final int ROW_SIX = 6;
 
 		Connect4GameLogic c4gamelogic = new Connect4GameLogic();
-		AbstractPlayer testPlayer = new Human();
+		Player testPlayer = new Human();
 		testPlayer.setColour("Red");
 
 		c4gamelogic.setPiece(0, 0, testPlayer);

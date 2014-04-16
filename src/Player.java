@@ -6,10 +6,10 @@ import java.awt.event.*;
  * @brief Store the name of the Player and their colour.
  * @details This class describes that whether a Player can make a move or not. It can also tell
  *  if it is his turn. The Player can change his name, set the colour of a piece.
- *  
+ *
  */
 
-abstract public class AbstractPlayer {
+abstract public class Player {
 
 	/** name of the player  */
 	private String m_Name;
@@ -21,7 +21,7 @@ abstract public class AbstractPlayer {
 	/**
 	 * This is the constructor for the Player class.
 	 */
-	public AbstractPlayer(){}
+	public Player(){}
 
 	/**
 	 * This method sets the colour of a piece

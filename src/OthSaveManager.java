@@ -18,7 +18,7 @@ import javax.swing.*;
 *
 */
 
-public class OthSaveManager {
+public class OthSaveManager extends SaveManager{
 
 	private static boolean test = true;
 	private String m_FileName;
@@ -28,6 +28,7 @@ public class OthSaveManager {
 	private Piece[][] m_LoadBoard;
 	private int m_option;
 	private OthelloGameLogic m_othelloGameLogic = new OthelloGameLogic();
+	private Scanner m_File;
 
 	private String m_LoadGameType = "";
 	private int m_LoadTime;
@@ -109,7 +110,7 @@ public class OthSaveManager {
 	*
 	*@return boolean
 	*/
-	public boolean saveData(String gameType, C4AndOthelloBoardStore board, int time, String name1, String name2,
+	public boolean saveData(String gameType, Board board, int time, String name1, String name2,
                             String playerType1, String playerType2, int turn) throws IOException {
 
 		System.out.println("Saving....");
@@ -140,28 +141,36 @@ public class OthSaveManager {
 	}
 
 	/**
-	*
-	*/
-
+	 * Calls the save file selected by the user, if successful the data is loaded else false is returned
+	 *
+	 * @return boolean
+	 */
 	public boolean loadData() throws IOException{
-
-		showFileBrowser();
-		m_FileName = PATH+ m_FileName;
-		if (fileFound()){
-			if (readGrid()){
-				return true;
-			}
-		} else {
-			return false;
-		}
-		return true;
+	  showFileBrowser();
+	  m_FileName = PATH+ m_FileName;
+	  m_File = new Scanner(new FileInputStream(m_FileName));
+	  if (fileFound()){
+	    if (m_File.hasNextLine()) {
+	      if (readGrid()){
+	      } else {
+	        return false;
+	      }
+	    } else {
+	      JOptionPane.showMessageDialog(null, "Empty File");
+	      return false;
+	    }
+	  } else {
+	    return false;
+	  }
+	  return true;
 	}
 
 	/**
-	*
-	*/
-
-	private boolean readGrid() throws IOException{
+	 * Reads the data from the selected file and adds it to the temp 2d array for board
+	 *
+	 * @return boolean
+	 */
+	public boolean readGrid() throws IOException{
 
 	String[] row = null;
     Piece piece;
@@ -200,7 +209,7 @@ public class OthSaveManager {
     return true;
 	}
 
-	private void showFileBrowser(){
+	public void showFileBrowser(){
 
 		JFrame frame = new JFrame();
 		FileDialog fc = new FileDialog(frame, "Load a Game Save", FileDialog.LOAD);
@@ -224,7 +233,7 @@ public class OthSaveManager {
 	/**
 	*@ return boolean
 	*/
-		private boolean fileFound(){
+		public boolean fileFound(){
 		try{
 		  m_CSVReader = new CSVReader(new FileReader(m_FileName));
 		  } catch (FileNotFoundException e){
@@ -237,7 +246,7 @@ public class OthSaveManager {
 		/**
 		*@return boolean
 		*/
-		private boolean nameFile(String op) throws IOException{
+		public boolean nameFile(String op) throws IOException{
 			try{
 			 m_FileName = JOptionPane.showInputDialog("Enter "+ op +" Name");
 			} catch (Exception e){
@@ -254,7 +263,7 @@ public class OthSaveManager {
 			Piece[][] newBoard = new Piece[BOARD_ROWS][BOARD_COLS];
 			OthelloGameLogic othelloGameLogic = new OthelloGameLogic();
 			OthSaveManager othSaveManager = new OthSaveManager();
-			C4AndOthelloBoardStore board = new C4AndOthelloBoardStore();
+			Board board = new Board();
 			//ProgramController programController = new ProgramController();
 
 			String name1 = "Dave";
@@ -292,17 +301,17 @@ public class OthSaveManager {
 			}
 		}
 
-private static final String PATH ="../SAVEDATA/OTH/";
-private static final String FILETYPE = ".csv";
-private static final int BOARD_ROWS = 8;
-private static final int BOARD_COLS = 8;
-private static final String SAVE = "save";
-private static final int SECOND_ROW = 2;
-private static final int THIRD_ROW = 3;
-private static final int FOURTH_ROW = 4;
-private static final int FIFTH_ROW = 5;
-private static final int SIXTH_ROW = 6;
-private static final int SEVENTH_ROW = 7;
+	private static final String PATH ="../SAVEDATA/OTH/";
+	private static final String FILETYPE = ".csv";
+	private static final int BOARD_ROWS = 8;
+	private static final int BOARD_COLS = 8;
+	private static final String SAVE = "save";
+	private static final int SECOND_ROW = 2;
+	private static final int THIRD_ROW = 3;
+	private static final int FOURTH_ROW = 4;
+	private static final int FIFTH_ROW = 5;
+	private static final int SIXTH_ROW = 6;
+	private static final int SEVENTH_ROW = 7;
 
 
 

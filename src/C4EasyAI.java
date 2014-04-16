@@ -8,7 +8,7 @@ import java.util.Random;
  * 		   if it is a valid move
  *
  */
-public class C4EasyAI {
+public class C4EasyAI extends Player {
 
 	// Class Constants
 	private static final int BOARD_HEIGHT = 7;
@@ -56,7 +56,7 @@ public class C4EasyAI {
 		 * Calling C4EasyAI.selectCol on an empty C4 Board.
 		 */
 		ProgramController testPC = new ProgramController();
-		C4AndOthelloBoardStore testBoard = new C4AndOthelloBoardStore();
+		Board testBoard = new Board();
 		C4EasyAI testAI = new C4EasyAI();
 		testPC.setIsC4(0);
 		testPC.setGame("player1", "player2");
@@ -77,7 +77,7 @@ public class C4EasyAI {
 		 * Calling C4EasyAI.selectCol on a partially filled C4 Board.
 		 */
 		ProgramController testPC2 = new ProgramController();
-		C4AndOthelloBoardStore testBoard2 = new C4AndOthelloBoardStore();
+		Board testBoard2 = new Board();
 		C4EasyAI testAI2 = new C4EasyAI();
 		testPC2.setIsC4(0);
 		testPC2.setGame("player1", "player2");
